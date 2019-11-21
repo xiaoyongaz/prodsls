@@ -1,0 +1,26 @@
+principle of chaos engineering
+http://principlesofchaos.org/?lang=ENcontent
+
+book: release it! 
+
+pattern:
+bulkhead
+https://docs.microsoft.com/en-us/azure/architecture/patterns/bulkhead
+
+circuit breaker
+https://martinfowler.com/bliki/CircuitBreaker.html
+
+decoupled invocation
+https://read.acloud.guru/applying-the-decoupled-invocation-pattern-with-aws-lambda-2f5f7e78d18
+
+queue based load leveling
+https://docs.microsoft.com/en-us/azure/architecture/patterns/queue-based-load-leveling
+
+cloud design patterns
+https://docs.microsoft.com/en-us/azure/architecture/patterns/
+
+saga pattern for data consistency
+https://read.acloud.guru/how-the-saga-pattern-manages-failures-with-aws-lambda-and-step-functions-bc8f7129f900
+
+swimlane
+https://swimlane.com/resources/swimlane-architecture-datasheet/
