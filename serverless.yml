@@ -1,0 +1,65 @@
+service: big-mouth 
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: ${opt:region, 'us-west-2'}
+  stage: ${opt:stage, 'dev'}
+ 
+  iamRoleStatements:
+    - Effect: Allow
+      Action: dynamodb:scan
+      Resource:
+        Fn::GetAtt:
+          - restaurantsTable
+          - Arn
+
+functions:
+  get-index:
+    handler: functions/get-index.handler
+    events:
+      - http:
+          path: /
+          method: get
+    environment:
+      restaurants_api: 
+        Fn::Join:
+          - ''
+          - - "https://"
+            - Ref: ApiGatewayRestApi
+            - ".execute-api.${opt:region}.amazonaws.com/${opt:stage}/restaurants"
+      cognito_user_pool_id: us-west-2_EXzdUYKfa
+      cognito_client_id: 22o7amg5t5bj03coplgfs00v6n 
+  get-restaurants:
+    handler: functions/get-restaurants.handler
+    events:
+      - http:
+          path: /restaurants/
+          method: get
+    environment:
+      restaurants_table: restaurants-xiaoyong
+  search-restaurants:
+    handler: functions/search-restaurants.handler
+    events:
+      - http:
+          path: /restaurants/search
+          method: post
+          authorizer:
+          arn: arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/us-west-2_EXzdUYKfa
+    environment:
+      restaurants_table: restaurants-xiaoyong
+resources:
+  Resources:
+    restaurantsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: restaurants-xiaoyong
+        AttributeDefinitions:
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: name
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
