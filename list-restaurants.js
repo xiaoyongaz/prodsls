@@ -4,7 +4,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient()
 
 
 const req = {
-    TableName: 'restaurants-xiaoyong',
+    TableName: 'restaurants-dev-xiaoyong',
     Limit: 20 
 }
 

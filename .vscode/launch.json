@@ -48,6 +48,51 @@
             ],
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "get-index",
+            "program": "${workspaceFolder}/node_modules/.bin/sls",
+            "args": [
+                "invoke",
+                "local",
+                "-f",
+                "get-index",
+                "-d",
+                "{}",
+                "-r",
+                "us-west-2",
+                "-s",
+                "dev"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "env":{
+                "restaurants_api": "https://slvbdb2mo1.execute-api.us-west-2.amazonaws.com/dev/restaurants",
+                "cognito_user_pool_id": "us-west-2_EXzdUYKfa",
+                "cognito_client_id":"22o7amg5t5bj03coplgfs00v6n"
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "search-restaurants",
+            "program": "${workspaceFolder}/node_modules/.bin/sls",
+            "args": [
+                "invoke",
+                "local",
+                "-f",
+                "search-restaurants",
+                "-p",
+                "examples/search-restaurants.json",
+                "-r",
+                "us-west-2",
+                "-s",
+                "dev"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
         }
-    ]
+     ]
 }

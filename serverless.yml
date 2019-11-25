@@ -28,8 +28,8 @@ functions:
           - - "https://"
             - Ref: ApiGatewayRestApi
             - ".execute-api.${opt:region}.amazonaws.com/${opt:stage}/restaurants"
-      cognito_user_pool_id: us-west-2_EXzdUYKfa
-      cognito_client_id: 22o7amg5t5bj03coplgfs00v6n 
+      cognito_user_pool_id: ${ssm:/${self:service}/${opt:stage}/cognito_user_pool_id}
+      cognito_client_id: ${ssm:/${self:service}/${opt:stage}/cognito_web_client_id}
   get-restaurants:
     handler: functions/get-restaurants.handler
     events:
@@ -37,7 +37,7 @@ functions:
           path: /restaurants/
           method: get
     environment:
-      restaurants_table: restaurants-xiaoyong
+      restaurants_table: ${ssm:/${self:service}/${opt:stage}/table_name}
   search-restaurants:
     handler: functions/search-restaurants.handler
     events:
@@ -47,13 +47,13 @@ functions:
           authorizer:
           arn: arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/us-west-2_EXzdUYKfa
     environment:
-      restaurants_table: restaurants-xiaoyong
+      restaurants_table: ${ssm:/${self:service}/${opt:stage}/table_name}
 resources:
   Resources:
     restaurantsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: restaurants-xiaoyong
+        TableName: ${ssm:/${self:service}/${opt:stage}/table_name}
         AttributeDefinitions:
           - AttributeName: name
             AttributeType: S
